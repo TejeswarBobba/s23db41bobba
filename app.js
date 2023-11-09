@@ -11,6 +11,7 @@ var boardRouter = require('./routes/board');
 var chooseRouter = require('./routes/choose');
 var Watch = require("./models/watches");
 var resourceRouter = require('./routes/resource');
+var watchesRouter = require('./routes/watches');
 
 var app = express();
 
@@ -35,6 +36,7 @@ app.use('/watches', watcheRouter);
 app.use('/board', boardRouter);
 app.use('/choose', chooseRouter);
 app.use('/resource',resourceRouter);
+app.use('/watches',watchesRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
@@ -63,21 +65,21 @@ console.log("Connection to DB succeeded")});
 async function recreateDB(){
  // Delete everything
  await Watch.deleteMany();
- let instance1 = new Watch({Name:"Rolex", Model : "chain", Price:15000});
+ let instance1 = new Watch({Name:"Rolex", Model :"chain", Price:15000});
  instance1.save().then(doc=>{
  console.log("First object saved")}
  ).catch(err=>{
  console.error(err)
  });
 
- let instance2 = new Watch({Name:"Titan", Model : "steel", Price:17000});
+ let instance2 = new Watch({Name:"Titan", Model :"steel", Price:17000});
  instance2.save().then(doc=>{
  console.log("Second object saved")}
  ).catch(err=>{
  console.error(err)
  });
 
- let instance3 = new Watch({Name:"Fossil", Model : "metal", Price:18000});
+ let instance3 = new Watch({Name:"Fossil", Model :"metal", Price:18000});
  instance3.save().then(doc=>{
  console.log("Third object saved")}
  ).catch(err=>{

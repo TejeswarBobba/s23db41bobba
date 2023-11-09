@@ -1,16 +1,11 @@
 extends layout
-
 block content
   h1= title
-  - var results=[{Name:"Rolex", Model : "chain", Price:15000},{Name:"Titan", Model : "steel", Price:17000},{Name:"Fossil", Model : "metal", Price:18000}]
+  - var item = results
   div(class="container-fluid")
      div(class="row")
-     each watch,idx in results
+     each watch in item
         div(class="row")
-           div(class="col-sm-2", onclick=`buy(${idx+1})`) #{watch.Name}
-           div(class="col-sm-2", onclick=`buy(${idx+1})`) #{ watch.Model}
-           div(class="col-sm-2", onclick=`buy(${idx+1})`) #{ watch.Price}
-  script.
-     function buy(i){
-      alert("You purchased item " + i)
-     }
+           div(class="col-sm-2") #{watch.Name}
+           div(class="col-sm-2") #{watch.Model}
+           div(class="col-sm-2") #{watch.Price}
