@@ -21,9 +21,32 @@ exports.watches_detail = function (req, res) {
     res.send('NOT IMPLEMENTED: watches detail: ' + req.params.id);
 };
 // Handle watches create on POST.
-exports.watches_create_post = function (req, res) {
-    res.send('NOT IMPLEMENTED: watches create POST');
-};
+// exports.watches_create_post = function (req, res) {
+//     res.send('NOT IMPLEMENTED: watches create POST');
+// };
+
+// Handle watch create on POST.
+exports.watch_create_post = async function(req, res) {
+    console.log(req.body)
+    let document = new watch();
+    // We are looking for a body, since POST does not have query parameters.
+    // Even though bodies can be in many different formats, we will be picky
+    // and require that it be a json object
+    // {"watch_type":"goat", "cost":12, "size":"large"}
+    document.Name = req.body.Name;
+    document.Model = req.body.Model;
+    document.Price = req.body.Price;
+    try{
+    let result = await document.save();
+    res.send(result);
+    }
+    catch(err){
+    res.status(500);
+    res.send(`{"error": ${err}}`);
+    } 
+   }
+
+
 // Handle watches delete form on DELETE.
 exports.watches_delete = function (req, res) {
     res.send('NOT IMPLEMENTED: watches delete DELETE ' + req.params.id);
@@ -46,3 +69,5 @@ exports.watches_view_all_Page = async function (req, res) {
         res.send(`{"error": ${err}}`);
     }
 };
+
+
