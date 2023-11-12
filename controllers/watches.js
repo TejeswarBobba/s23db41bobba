@@ -40,11 +40,11 @@ exports.watches_detail = async function(req, res) {
 // Handle watch create on POST.
 exports.watch_create_post = async function(req, res) {
     console.log(req.body)
-    let document = new watch();
+    let document = new watches();
     // We are looking for a body, since POST does not have query parameters.
     // Even though bodies can be in many different formats, we will be picky
     // and require that it be a json object
-    // {"watch_type":"goat", "cost":12, "size":"large"}
+    // {"watch_type":"goat", "Model":12, "Price":"large"}
     document.Name = req.body.Name;
     document.Model = req.body.Model;
     document.Price = req.body.Price;
@@ -64,9 +64,29 @@ exports.watches_delete = function (req, res) {
     res.send('NOT IMPLEMENTED: watches delete DELETE ' + req.params.id);
 };
 // Handle watches update form on PUT.
-exports.watches_update_put = function (req, res) {
-    res.send('NOT IMPLEMENTED: watches update PUT' + req.params.id);
-};
+// exports.watches_update_put = function (req, res) {
+//     res.send('NOT IMPLEMENTED: watches update PUT' + req.params.id);
+// };
+
+exports.watches_update_put = async function(req, res) {
+    console.log(`update on id ${req.params.id} with body 
+   ${JSON.stringify(req.body)}`)
+    try {
+    let toUpdate = await watches.findById( req.params.id)
+    // Do updates of properties
+    if(req.body.Name) toUpdate.Name = req.body.Name;
+    if(req.body.Model) toUpdate.Model = req.body.Model;
+    if(req.body.Price) toUpdate.Price = req.body.Price;
+    let result = await toUpdate.save();
+    console.log("Sucess " + result)
+    res.send(result)
+    } catch (err) {
+    res.status(500)
+    res.send(`{"error": ${err}: Update for id ${req.params.id} 
+   failed`);
+    }
+   };
+
 
 
 // VIEWS
