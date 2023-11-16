@@ -144,4 +144,18 @@ exports.watch_create_Page = function(req, res) {
     }
     };
 
+    // Handle building the view for updating a watch.
+// query provides the id
+exports.watch_update_Page = async function(req, res) {
+    console.log("update view for item "+req.query.id)
+    try{
+    let result = await watches.findById(req.query.id)
+    res.render('watchupdate', { title: 'watch Update', toShow: result });
+    }
+    catch(err){
+    res.status(500)
+    res.send(`{'error': '${err}'}`);
+    }
+    };
+
 
