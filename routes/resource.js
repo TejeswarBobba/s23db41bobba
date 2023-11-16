@@ -18,5 +18,6 @@ router.get('/watches/:id', watches_controller.watches_detail);
 // GET request for list of all watches items.
 router.get('/watches', watches_controller.watches_list);
 router.get('/detail', watches_controller.watch_view_one_Page);
+router.get('/create', watches_controller.watch_create_Page);
 
 module.exports = router;
