@@ -162,7 +162,7 @@ exports.watch_update_Page = async function(req, res) {
 exports.watch_delete_Page = async function(req, res) {
     console.log("Delete view for id " + req.query.id)
     try{
-    result = await watch.findById(req.query.id)
+    result = await watches.findById(req.query.id)
     res.render('watchdelete', { title: 'watch Delete', toShow:
     result });
     }
