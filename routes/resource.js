@@ -20,5 +20,6 @@ router.get('/watches', watches_controller.watches_list);
 router.get('/detail', watches_controller.watch_view_one_Page);
 router.get('/create', watches_controller.watch_create_Page);
 router.get('/update', watches_controller.watch_update_Page);
+router.get('/delete', watches_controller.watch_delete_Page);
 
 module.exports = router;
