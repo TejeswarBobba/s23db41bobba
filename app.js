@@ -4,6 +4,10 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
+var passport = require('passport');
+var LocalStrategy = require('passport-local').Strategy;
+
+
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var watcheRouter = require('./routes/watch');
@@ -19,6 +23,17 @@ require('dotenv').config();
 const connectionString = process.env.MONGO_CON
 mongoose = require('mongoose');
 mongoose.connect('mongodb+srv://tejeswarbobba04:Teja1997@cluster0.vzejhck.mongodb.net/?retryWrites=true&w=majority');
+
+const Schema = mongoose.Schema;
+const passportLocalMongoose = require("passport-localmongoose");
+const accountSchema = new Schema({
+ username: String,
+ password: String
+});
+accountSchema.plugin(passportLocalMongoose);
+// We export the Schema to avoid attaching the model to the
+// default mongoose connection.
+module.exports = mongoose.model("Account", accountSchema);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -37,6 +52,14 @@ app.use('/board', boardRouter);
 app.use('/choose', chooseRouter);
 app.use('/resource',resourceRouter);
 app.use('/watches',watchesRouter);
+
+app.use(require('express-session')({
+  secret: 'keyboard cat',
+  resave: false,
+  saveUninitialized: false
+ }));
+ app.use(passport.initialize());
+ app.use(passport.session());
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
@@ -88,5 +111,24 @@ async function recreateDB(){
 }
 let reseed = true;
 if (reseed) {recreateDB();}
+
+passport.use(new LocalStrategy(
+  function(username, password, done) {
+  Account.findOne({ username: username })
+  .then(function (user){
+  if (err) { return done(err); }
+  if (!user) {
+  return done(null, false, { message: 'Incorrect username.' });
+  }
+  if (!user.validPassword(password)) {
+  return done(null, false, { message: 'Incorrect password.' });
+  }
+  return done(null, user);
+  })
+  .catch(function(err){
+  return done(err)
+  })
+  })
+ )
 
 module.exports = app;
