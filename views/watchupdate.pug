@@ -12,10 +12,10 @@ block content
   form(id='watchForm', action= actionid, method="PUT")
     div.form-group
       label.watchAttr(for='Name') watch Name
-      input#Name(type='text', name='Name', value= Name )
+      input#Name(type='text', name='Name', value= Name, minlength=10, maxlength=100 )
     div.form-group
       label.watchAttr(for='Model') watch Model
-      input#Model(type='text', name='Model', value= Model )
+      input#Model(type='text', name='Model', value= Model, minlength=10, maxlength=100 )
     div.form-group
       label.watchAttr(for='Price') watch cost
       input#Price(type='number', name='Price', value= Price )
